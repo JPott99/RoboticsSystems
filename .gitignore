@@ -1,0 +1,5 @@
+*.pyc
+*.png
+*.xlsx
+*.csv
+*DS_Store
