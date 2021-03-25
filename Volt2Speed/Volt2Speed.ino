@@ -118,7 +118,7 @@ void printCSV()
 {
 //  FILE *fpt;
 //  fpt = fopen("voltageSpeedData.csv", "w+");
-  Serial.println("DigitalInput, Clicks Per Second,");
+//  Serial.println("DigitalInput, Clicks Per Second,");
   int counter = 0;
   while (counter<255)
   {
@@ -147,7 +147,7 @@ void loopMain()
   }
   leftMotor.currentSpeed = float(volt);
   leftMotor.motorControl();
-  rightMotor.currentSpeed = float(volt);
+  rightMotor.currentSpeed = -float(volt);
   rightMotor.motorControl();
 }
 // The main loop of execution.  This loop()
@@ -155,11 +155,14 @@ void loopMain()
 // time it finishes.  You should try to write
 // your code to take advantage of this looping
 // behaviour.
+char inChar;
 void loop() {
   if (volt == 255)
   {
     volt = 0;
     currentCount = currentCount+1;
+    leftCountTE = countLeft;
+    rightCountTE = countRight;
   }
   if (currentCount < maxCount)
   {
@@ -175,10 +178,11 @@ void loop() {
     rightMotor.currentSpeed = 0;
     leftMotor.motorControl();
     rightMotor.motorControl();
-    char inChar = Serial.read();
-    if (inChar = "o")
+    inChar = Serial.read();
+    if (inChar =='o')
     {
       printCSV();
+      inChar = 'e';
     }
   }
   
