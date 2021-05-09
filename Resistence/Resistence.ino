@@ -63,6 +63,7 @@ float rightSpeedMeasure = 0;
 float rightOutput = 0;
 
 int distMeasure = 0;
+int timeResetVal = 0;
 //
 //float leftDemand = setSpeed;
 //float rightDemand = setSpeed;
@@ -117,6 +118,7 @@ void driveMotors(float l_demand, float r_demand)
 int maxCount = 25;
 int resultLeft[25] = {0}; 
 int resultRight[25] = {0}; 
+int resultTime[25] = {0};
 
 void printCSV()
 {
@@ -126,6 +128,8 @@ void printCSV()
     Serial.print(resultLeft[counter]);
     Serial.print(",");
     Serial.print(resultRight[counter]);
+    Serial.print(",");
+    Serial.print(resultTime[counter]);
     Serial.println(",");
     counter++;
   }
@@ -149,8 +153,10 @@ void loopMain()
     {
       resultLeft[currentCount] = leftMotor.currentSpeed;
       resultRight[currentCount] = rightMotor.currentSpeed;
+      resultTime[currentCount] = millis() - timeResetVal;
       currentCount = currentCount+1;
     }
+    timeResetVal = millis();
     distMeasure = countLeft;
     if (directionMultiplier == 1)
     {
